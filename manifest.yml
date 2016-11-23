@@ -1,0 +1,10 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: BLMTradeoffAnalytics1
+  host: BLMTradeoffAnalytics
+  disk_quota: 1024M
+  services:
+  - Tradeoff Analytics-b5
