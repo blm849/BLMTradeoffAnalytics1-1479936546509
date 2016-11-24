@@ -1,7 +1,7 @@
 # BLMTradeoffAnalytics1
 
 
-  This site is a simple example of how to work with IBM Watson's Tradeoff Analytics using node.js and their API.
+  This is a simple example of how to work with IBM Watson's Tradeoff Analytics using node.js and their API.
   
   It uses the JSON input provided in <a href="https://www.ibm.com/watson/developercloud/doc/tradeoff-analytics/tutorial.shtml">this tutorial</a>.
   
