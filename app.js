@@ -26,7 +26,6 @@ var ta_result = [];
 var params;
 
 // Watson API and credential information. 
-// TODO: move this to a separate file
 var TradeoffAnalyticsV1 = require('watson-developer-cloud/tradeoff-analytics/v1');
 var config = require('./config');
 
@@ -46,8 +45,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Load the router module
 app.use("/",router);
 
-// define the 404 message
-// TODO: Change to a 404 page?
+// Send the equivalent of a 404 message to the user.
 app.use("*",function(req,res){
   res.send('Whoops! That page does not exist!');
 });
@@ -68,7 +66,14 @@ router.get("/about",function(req,res){
 	res.sendFile(path + "about.html");
 });
 
+// define the askWatson route
 router.post('/askWatson', function(req, res) {
+
+	// If an error occurs, error_message will contain the error message.
+	// preferredbrands contains the brands (e.g. Sony, Apple) the user selected.
+	// If the selected weight is important, that req.body.weight = 'Weight1' and
+	// weight is important to them.
+	
   	error_message = "";
   	preferredbrands = req.body.preferredbrands;
   	maxprice = req.body.maxprice;
@@ -79,6 +84,7 @@ router.post('/askWatson', function(req, res) {
   	}
   	
   	// Test the input data to see it is suitable for Watson.
+  	// They need to select at least 2 brands for Watson to process it.
   	
   	if (typeof preferredbrands !== 'object') {
   		console.log("They must select one or more brands");
@@ -86,19 +92,30 @@ router.post('/askWatson', function(req, res) {
   		error_message = error_message + "You must select 2 or more brands.";
   	}
   	
+  	// The price they enter for maxPrice must be a number.
+  	
   	if (isNaN(maxprice)) {
   		console.log("Max price is not a number");
   		error_message = error_message + "You must enter a number for max price.";
   	} else
   		  	maxprice = Number(req.body.maxprice);
   		  	
+  	// Maxprice cannot be negative either.
+  	
   	if (maxprice <= 0) {
   		console.log("Max price is less than or equal to 0");
   		error_message = error_message + "You must enter a number for max price greater than 0.";
   	}
    	
+   	// Reset ta_result to []
    	ta_result = [];
+   	
+   	// If error_message still equals "", then no error occurred in the input.
+   	
 	if (error_message == "") {
+	
+		// Set the variable params. Most of it is constant information. What is variable
+		// are the values for weight_is_objective and req.body.preferredbrands
 		params = {
 		  "subject": "phones",
 		  "columns": [
@@ -221,7 +238,9 @@ router.post('/askWatson', function(req, res) {
 		// Number of options is the number of options in the var params.
 		number_of_options = 7;
 		
-	// Call tradeoff analytics
+	// Call tradeoff analytics, passing it the value in the variable params.
+	// If we don't get an error, then process the response that came back and is stored
+	// in ta_res. The response we want from ta_res is stored in status and phone.
 
 	tradeoff_analytics.dilemmas(params, function(err, ta_res) {
 		if (err) {
@@ -233,7 +252,12 @@ router.post('/askWatson', function(req, res) {
 				phone = phone.replace(/"/g,'');
 				var status = JSON.stringify(ta_res.resolution.solutions[i].status, null, 2);
 	
-							
+				// If status is "FRONT", then Watson thinks the phone meets the user's 
+				// criteria. If the status is "EXCLUDED", it matches the criteria, but Watson thinks
+				// another phone is better. If it is neither FRONT or EXCLUDED, then
+				// Watson thinks it is not a match, so we get the reason why and assign 
+				// it to variable reason.
+				 			
 				switch (status.trim()) {
 					case '"FRONT"':
 						ta_result.push(phone + " is a match!");
@@ -260,9 +284,6 @@ router.post('/askWatson', function(req, res) {
 		ta_result.push(error_message);
 		res.render('results.ejs', {quotes: ta_result});	
 	}
-		
-	// end if (error_message == "") {
-
 })
 
 
