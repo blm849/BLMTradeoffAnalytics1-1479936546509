@@ -1,0 +1,13 @@
+// To configure this file:
+// Rename it to config.js
+// Remove all these comments (the lines beginning with //)
+// Replace xxx with your Tradeoff Analytics username
+// Replace yyy with your Tradeoff Analytics password
+// Do not change anything else.
+
+config = {};
+
+config.TAusername = 'xxx';
+config.TApassword = 'yyy';
+
+module.exports = config;
