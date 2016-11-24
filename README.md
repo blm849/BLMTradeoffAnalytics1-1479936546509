@@ -1,4 +1,4 @@
-# BLM
+# BLMTradeoffAnalytics1
 
 
   This site is a simple example of how to work with IBM Watson's Tradeoff Analytics using node.js and their API.
