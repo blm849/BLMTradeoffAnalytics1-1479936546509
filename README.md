@@ -1,9 +1,9 @@
 # BLMTradeoffAnalytics1
 
 
-  This is a simple example of how to work with IBM Watson's Tradeoff Analytics using node.js and their API.
+This is a simple example of how to work with IBM Watson's Tradeoff Analytics using node.js and their API.
   
-  It uses the JSON input provided in <a href="https://www.ibm.com/watson/developercloud/doc/tradeoff-analytics/tutorial.shtml">this tutorial</a>.
+It uses the JSON input provided in <a href="https://www.ibm.com/watson/developercloud/doc/tradeoff-analytics/tutorial.shtml">this tutorial</a>.
   
 Since there was only a tutorial using cURL but no node.js tutorial, I took the tutorial material for cURL to write this simple node.js application.
 
@@ -11,7 +11,7 @@ The application is very simple. If you go to https://blmtradeoffanalytics.myblue
 
 That's it!
    
-   For more information on the API, click <a href="https://www.ibm.com/watson/developercloud/doc/tradeoff-analytics/">here</a>.
+For more information on the API, click <a href="https://www.ibm.com/watson/developercloud/doc/tradeoff-analytics/">here</a>.
 
 ## About the application
 
